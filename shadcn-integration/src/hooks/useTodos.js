@@ -1,18 +1,10 @@
-import { useEffect, useState } from "react";
+import { useLocalStorage } from "./useLocalStorage";
 
 export function useTodos() {
   // 1. State & Initial Load
-  const [todos, setTodos] = useState(() => {
-    const savedTodos = localStorage.getItem("todos");
-    return savedTodos ? JSON.parse(savedTodos) : [];
-  });
+  const [todos, setTodos] = useLocalStorage("todos", [])
 
-   const [filter, setFilter] = useState("all"); // "all" | "active" | "completed"
-
-  // 2. Side Effect for localStorage sync
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+  const [filter, setFilter] = useLocalStorage("todo_filter", "all")
 
   // 3. Action: Add Todo
   const addTodo = (title) => {
@@ -50,6 +42,9 @@ export function useTodos() {
     return true;
   });
 
+  const clearCompleted = () => {
+    setTodos((prevTodos) => prevTodos.filter((todo) => !todo.completed));
+  };
 
   return {
     todos: filteredTodos,
@@ -60,6 +55,7 @@ export function useTodos() {
     toggleTodo,
     totalCount,
     completedCount,
-    activeCount
+    activeCount,
+    clearCompleted
   };
 }

@@ -7,6 +7,8 @@ export function useTodos() {
     return savedTodos ? JSON.parse(savedTodos) : [];
   });
 
+   const [filter, setFilter] = useState("all"); // "all" | "active" | "completed"
+
   // 2. Side Effect for localStorage sync
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
@@ -32,15 +34,32 @@ export function useTodos() {
   const toggleTodo = (id) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+      ),
     );
   };
 
+  // 6. Derived State (Calculated directly from todos—no extra useState needed!)
+  const totalCount = todos.length;
+  const completedCount = todos.filter((todo) => todo.completed).length;
+  const activeCount = totalCount - completedCount;
+
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "active") return !todo.completed;
+    if (filter === "completed") return todo.completed;
+    return true;
+  });
+
+
   return {
-    todos,
+    todos: filteredTodos,
+    filter,
+    setFilter,
     addTodo,
     deleteTodo,
     toggleTodo,
+    totalCount,
+    completedCount,
+    activeCount
   };
 }

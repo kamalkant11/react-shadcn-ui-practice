@@ -1,21 +1,21 @@
-import CyclicDependency from "./pages/CyclicDependency";
-import ExampleUseMemo from "./pages/ExampleUseMemo";
-import FirstPage from "./pages/FirstPage";
-import LoginPage from "./pages/LoginPage";
+// import CyclicDependency from "./pages/practice-pages/CyclicDependency";
+// import ExampleUseMemo from "./pages/practice-pages/ExampleUseMemo";
+// import FirstPage from "./pages/practice-pages/FirstPage";
+// import LoginPage from "./pages/practice-pages/LoginPage";
 import TodoPage from "./pages/TodoPage";
 
 function App() {
   return (
     <div>
-      <FirstPage />
+      {/* <FirstPage />
 
       <LoginPage />
 
-      <TodoPage />
-
       <CyclicDependency />
 
-      <ExampleUseMemo />
+      <ExampleUseMemo /> */}
+
+      <TodoPage />
     </div>
   );
 }

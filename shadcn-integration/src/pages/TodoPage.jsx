@@ -1,33 +1,9 @@
 import TodoForm from "@/components/todo/TodoForm";
 import TodoList from "@/components/todo/TodoList";
-import { useEffect, useState } from "react";
+import { useTodos } from "@/hooks/useTodos";
 
 const TodoPage = () => {
-  const [todos, setTodos] = useState(() => {
-    const savedTodos = localStorage.getItem("todos");
-
-    return savedTodos ? JSON.parse(savedTodos) : [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
-
-  const handleDeleteTodo = (id) => {
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-  };
-
-  const handleToggleTodo = (id) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, completed: !todo.completed };
-        }
-
-        return todo;
-      }),
-    );
-  };
+  const { todos, addTodo, deleteTodo, toggleTodo } = useTodos();
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center space-y-3 bg-background text-foreground">
@@ -37,12 +13,12 @@ const TodoPage = () => {
         Manage your daily tasks.
       </p>
 
-      <TodoForm todos={todos} setTodos={setTodos} />
+      <TodoForm addTodo={addTodo} />
 
       <TodoList
         todos={todos}
-        onDeleteTodo={handleDeleteTodo}
-        onToggleTodo={handleToggleTodo}
+        onDeleteTodo={deleteTodo}
+        onToggleTodo={toggleTodo}
       />
     </main>
   );

@@ -2,17 +2,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
-const TodoForm = ({ setTodos }) => {
+const TodoForm = ({ addTodo }) => {
   const [todo, setTodo] = useState("");
 
   const handleCreateTodo = (e) => {
     e.preventDefault();
     if (!todo.trim()) return;
 
-    setTodos((prevTodos) => [
-      ...prevTodos,
-      { id: Date.now(), title: todo.trim(), completed: false },
-    ]);
+    addTodo(todo)
 
     setTodo("");
   };
